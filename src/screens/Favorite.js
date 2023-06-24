@@ -12,11 +12,13 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import {
   Ionicons,
   FontAwesome,
   MaterialCommunityIcons,
+  MaterialIcons,
   AntDesign,
   Feather,
 } from "@expo/vector-icons";
@@ -29,14 +31,11 @@ const Favorite = ({ navigation }) => {
   const [data, setData] = useState([]);
   const isFocused = useIsFocused();
   const getData = async () => {
-    console.log("FavoriteScreen-fetch data");
     try {
       const jsonString = await AsyncStorage.getItem("orchids");
       if (jsonString !== null) {
         const parsedArray = JSON.parse(jsonString);
-        // console.log("Array retrieved successfully: ");
         setOrchids(parsedArray);
-        // console.log("__favorite: ", orchids);
       } else {
         console.log("Array does not exist");
       }
@@ -54,12 +53,11 @@ const Favorite = ({ navigation }) => {
 
   useEffect(() => {
     getData();
-    setTimeout(() => setIsLoading(false), 500);
+    // setTimeout(() => setIsLoading(false), 500);
     // setIsLoading(false);
   }, [isFocused]);
 
   const handlePress = async (id) => {
-    console.log(id);
     orchids.forEach((item, index) => {
       if (item.id === id) {
         item.isFavorite = !item.isFavorite;
@@ -68,10 +66,34 @@ const Favorite = ({ navigation }) => {
     });
     setOrchids(orchids);
     await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
-      .then(() => console.log("Data changed successfully"))
+      // .then(() => console.log("Data changed successfully"))
       .catch((error) => console.log("Error saving data: ", error));
     await getData();
   };
+
+  const createTwoButtonAlert = () =>
+    Alert.alert("Warning", "Remove all from list ?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Remove",
+        onPress: async () => {
+          const arr = [];
+          setData(arr);
+          orchids.forEach((item, index) => {
+            item.isFavorite = false;
+            return item;
+          });
+          await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
+            // .then(() => console.log("Data changed successfully"))
+            .catch((error) => console.log("Error saving data: ", error));
+          await getData();
+        },
+      },
+    ]);
 
   useEffect(() => {
     renderItem;
@@ -144,14 +166,17 @@ const Favorite = ({ navigation }) => {
         padding: 10,
       }}
     >
-      <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
+      <StatusBar
+        backgroundColor={COLORS.lightPrimary}
+        barStyle="dark-content"
+      />
 
       <ActivityIndicator size="large" color={COLORS.primary} />
     </View>;
   } else if (data.length > 0) {
     return (
       <View style={{ flex: 1 }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             position: "absolute",
             top: 10,
@@ -173,15 +198,50 @@ const Favorite = ({ navigation }) => {
               .catch((error) => console.log("Error saving data: ", error));
             await getData();
           }}
+        > */}
+        {/* Nội dung của nút xóa */}
+        {/* Ví dụ: */}
+        {/* <Text style={{ color: "white" }}>Clear All</Text>
+        </TouchableOpacity> */}
+        <View
+          style={{
+            flex: 0.15,
+            backgroundColor: COLORS.primary,
+          }}
         >
-          {/* Nội dung của nút xóa */}
-          {/* Ví dụ: */}
-          <Text style={{ color: "white" }}>Clear All</Text>
-        </TouchableOpacity>
+          <View
+            style={{
+              marginTop: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{}}>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 25,
+                  color: COLORS.white,
+                  fontWeight: 400,
+                }}
+              >
+                Favorite List
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{ opacity: 0.7, padding: 10 }}
+              onPress={createTwoButtonAlert}
+            >
+              <MaterialIcons name="delete-outline" size={35} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
         <FlatList
           style={{
             marginTop: 20,
             marginHorizontal: 10,
+            flex: 1,
           }}
           data={data}
           renderItem={renderItem}
@@ -191,30 +251,60 @@ const Favorite = ({ navigation }) => {
     );
   } else {
     return (
-      <View style={{ flex: 1, alignItems: "center", marginTop: 100 }}>
-        <View>
-          <Image
-            source={require("./../assets/images/empty.png")}
-            style={{
-              width: 200,
-              height: 200,
-              resizeMode: "contain",
-            }}
-          />
-        </View>
+      <View style={{ flex: 1 }}>
         <View
           style={{
-            marginTop: 30,
+            flex: 0.17,
+            backgroundColor: COLORS.primary,
           }}
         >
-          <Text
+          <View
             style={{
-              fontSize: 18,
-              fontWeight: 400,
+              marginTop: 30,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            There are no favorite flowers!
-          </Text>
+            <View style={{}}>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 25,
+                  color: COLORS.white,
+                  fontWeight: 400,
+                }}
+              >
+                Favorite List
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flex: 1, alignItems: "center", marginTop: 100 }}>
+          <View>
+            <Image
+              source={require("./../assets/images/empty.png")}
+              style={{
+                width: 200,
+                height: 200,
+                resizeMode: "contain",
+              }}
+            />
+          </View>
+          <View
+            style={{
+              marginTop: 30,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 400,
+              }}
+            >
+              There are no favorite flowers!
+            </Text>
+          </View>
         </View>
       </View>
     );

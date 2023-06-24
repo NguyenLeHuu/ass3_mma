@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Button,
+  Pressable,
 } from "react-native";
 import {
   Ionicons,
@@ -24,11 +25,13 @@ import Home from "../screens/Home";
 import Favorite from "../screens/Favorite";
 import orchids from "../assets/data";
 import Detail from "../screens/Detail";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
 const DetailStack = createStackNavigator();
 
-export const TabButtom = ({ navigation }) => {
+export const TabButtom = () => {
+  const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
       AsyncStorage.setItem("orchids", JSON.stringify(orchids))
@@ -42,12 +45,15 @@ export const TabButtom = ({ navigation }) => {
         flex: 1,
       }}
     >
-      <StatusBar backgroundColor={COLORS.primary} barStyle="white-content" />
+      <StatusBar
+        backgroundColor={COLORS.lightPrimary}
+        barStyle="dark-content"
+      />
       {/* <View style={{ flex: 0.15, backgroundColor: COLORS.primary }}></View> */}
       <View style={{ flex: 1 }}>
         <Tab.Navigator
           // shifting={true}
-          barStyle={{ backgroundColor: COLORS.primary, height: "7%" }}
+          barStyle={{ backgroundColor: COLORS.white, height: "7%" }}
           tabBarOptions={{
             labelStyle: { fontSize: 12 },
             style: {
@@ -61,9 +67,18 @@ export const TabButtom = ({ navigation }) => {
             name="TabHomeStackScreen"
             component={TabHomeStackScreen}
             options={{
-              unmountOnBlur: true,
-              tabBarIcon: ({ color }) => (
-                <Ionicons name="home" size={24} color="black" />
+              tabBarIcon: ({ focused }) => (
+                <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                  {focused ? (
+                    <Ionicons name="home" size={28} color={COLORS.primary} />
+                  ) : (
+                    <Ionicons
+                      name="home-outline"
+                      size={28}
+                      color={COLORS.black}
+                    />
+                  )}
+                </TouchableOpacity>
               ),
               tabBarLabel: null,
             }}
@@ -73,8 +88,16 @@ export const TabButtom = ({ navigation }) => {
             component={TabFavoriteStackScreen}
             options={{
               unmountOnBlur: true,
-              tabBarIcon: ({ color }) => (
-                <AntDesign name="hearto" size={24} color="black" />
+              tabBarIcon: ({ focused }) => (
+                <Pressable
+                  onPress={() => navigation.navigate("TabFavoriteStackScreen")}
+                >
+                  {focused ? (
+                    <AntDesign name="heart" size={28} color={COLORS.primary} />
+                  ) : (
+                    <AntDesign name="hearto" size={28} color={COLORS.black} />
+                  )}
+                </Pressable>
               ),
               tabBarLabel: null,
             }}

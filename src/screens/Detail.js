@@ -29,7 +29,7 @@ const Detail = ({ navigation, route }) => {
   let id = route.params.data;
 
   const getData = async () => {
-    console.log("detaiScreen-fetch data");
+    // console.log("detaiScreen-fetch data");
     try {
       const jsonString = await AsyncStorage.getItem("orchids");
       if (jsonString !== null) {
@@ -59,7 +59,7 @@ const Detail = ({ navigation, route }) => {
     });
     setOrchids(orchids);
     await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
-      .then(() => console.log("Data changed successfully"))
+      // .then(() => console.log("Data changed successfully"))
       .catch((error) => console.log("Error saving data: ", error));
     await getData();
   };
@@ -72,14 +72,17 @@ const Detail = ({ navigation, route }) => {
         padding: 10,
       }}
     >
-      <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
+      <StatusBar
+        backgroundColor={COLORS.lightPrimary}
+        barStyle="dark-content"
+      />
 
       <ActivityIndicator size="large" color={COLORS.primary} />
     </View>;
   } else {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#C2185B" barStyle="white-content" />
+        {/* <StatusBar backgroundColor="#cc6937" barStyle="white-content" /> */}
         <View
           style={{
             flex: 0.25,
