@@ -46,8 +46,9 @@ const Home = ({ navigation }) => {
   };
 
   useEffect(() => {
+    // setIsLoading(true);
     getData();
-    setTimeout(() => setIsLoading(false), 4000);
+    setTimeout(() => setIsLoading(false), 300);
   }, [isFocused]);
   const handlePress = async (id) => {
     orchids.forEach((item, index) => {

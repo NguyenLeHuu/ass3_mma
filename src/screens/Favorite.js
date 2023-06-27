@@ -52,9 +52,9 @@ const Favorite = ({ navigation }) => {
   }, [orchids]);
 
   useEffect(() => {
+    setIsLoading(true);
     getData();
-    // setTimeout(() => setIsLoading(false), 500);
-    // setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 300);
   }, [isFocused]);
 
   const handlePress = async (id) => {
@@ -158,21 +158,23 @@ const Favorite = ({ navigation }) => {
   };
 
   if (isLoading) {
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 10,
-      }}
-    >
-      <StatusBar
-        backgroundColor={COLORS.lightPrimary}
-        barStyle="dark-content"
-      />
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 10,
+        }}
+      >
+        <StatusBar
+          backgroundColor={COLORS.lightPrimary}
+          barStyle="dark-content"
+        />
 
-      <ActivityIndicator size="large" color={COLORS.primary} />
-    </View>;
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
   } else if (data.length > 0) {
     return (
       <View style={{ flex: 1 }}>

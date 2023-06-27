@@ -15,7 +15,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <TabButtom />
+      {/* <Stack.Navigator
         initialRouteName="TabButtom"
         screenOptions={{
           headerShown: false,
@@ -51,7 +52,7 @@ export default function App() {
           component={Detail}
           options={{ unmountOnBlur: true }}
         />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

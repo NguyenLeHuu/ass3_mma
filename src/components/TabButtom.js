@@ -33,10 +33,13 @@ const DetailStack = createStackNavigator();
 export const TabButtom = () => {
   const navigation = useNavigation();
   useEffect(() => {
-    setTimeout(() => {
-      AsyncStorage.setItem("orchids", JSON.stringify(orchids))
-        .then(() => console.log("Data saved successfully"))
-        .catch((error) => console.log("Error saving data: ", error));
+    setTimeout(async () => {
+      const jsonString = await AsyncStorage.getItem("orchids");
+      if (jsonString === null) {
+        AsyncStorage.setItem("orchids", JSON.stringify(orchids))
+          .then(() => console.log("Data saved successfully"))
+          .catch((error) => console.log("Error saving data: ", error));
+      }
     }, 500);
   }, []);
   return (
@@ -87,11 +90,8 @@ export const TabButtom = () => {
             name="TabFavoriteStackScreen"
             component={TabFavoriteStackScreen}
             options={{
-              unmountOnBlur: true,
               tabBarIcon: ({ focused }) => (
-                <Pressable
-                  onPress={() => navigation.navigate("TabFavoriteStackScreen")}
-                >
+                <Pressable onPress={() => navigation.navigate("Favorite")}>
                   {focused ? (
                     <AntDesign name="heart" size={28} color={COLORS.primary} />
                   ) : (
