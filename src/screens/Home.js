@@ -30,7 +30,23 @@ const Home = ({ navigation }) => {
   const [orchids, setOrchids] = useState([]);
   const [data, setData] = useState([]);
   const [active, setActive] = useState("All");
+  const [searchText, setSearchText] = useState("");
   const isFocused = useIsFocused();
+
+  const handleTextInputChange = (text) => {
+    // console.log("TextInput value:", text);
+    setSearchText(text);
+    let arr1 = [];
+    if (active === "All") {
+      arr1 = orchids;
+    } else {
+      arr1 = orchids.filter((e) => e.category === active);
+    }
+    const arr = arr1.filter((e) =>
+      e.name.toUpperCase().includes(text.toUpperCase())
+    );
+    setData(arr);
+  };
 
   const getData = async () => {
     try {
@@ -69,12 +85,19 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (active !== "All") {
       const arr = orchids.filter((item, index) => item.category === active);
-      setData(arr);
+      const arr1 = arr.filter((e) =>
+        e.name.toUpperCase().includes(searchText.toUpperCase())
+      );
+      setData(arr1);
     } else {
-      setData(orchids);
+      const arr = orchids.filter((e) =>
+        e.name.toUpperCase().includes(searchText.toUpperCase())
+      );
+      setData(arr);
     }
     renderItem;
-  }, [orchids]);
+  }, [orchids, active]);
+
   const renderItem = ({ item }) => {
     return (
       <Pressable
@@ -148,7 +171,8 @@ const Home = ({ navigation }) => {
         <ActivityIndicator size="large" color={COLORS.primary} />
       </View>
     );
-  } else if (data.length > 0) {
+    // } else if (data.length > 0) {
+  } else {
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -211,8 +235,11 @@ const Home = ({ navigation }) => {
               <View>
                 <Feather name="search" size={24} color="black" />
               </View>
-              <View style={{ marginLeft: 10 }}>
-                <TextInput placeholder="Search orchid"></TextInput>
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <TextInput
+                  placeholder="Search orchid"
+                  onChangeText={handleTextInputChange}
+                ></TextInput>
               </View>
             </View>
             <View
@@ -264,7 +291,7 @@ const Home = ({ navigation }) => {
                     const arr = orchids.filter(
                       (item, index) => item.category === cateItem
                     );
-                    setData(arr);
+                    // setData(arr);
                     setActive(cateItem);
                     // getData();
                   }}

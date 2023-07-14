@@ -108,8 +108,8 @@ export const TabButtom = () => {
             }}
           />
           <Tab.Screen
-            name="Tab3"
-            component={Tab3}
+            name="Tab3StackScreen"
+            component={Tab3StackScreen}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Pressable onPress={() => navigation.navigate("Tab3")}>
@@ -152,6 +152,23 @@ export const TabFavoriteStackScreen = () => {
       <DetailStack.Screen
         name="Favorite"
         component={Favorite}
+        options={{ headerShown: false }}
+      />
+      <DetailStack.Screen
+        name="Detail"
+        component={Detail}
+        options={{ headerShown: false }}
+      />
+    </DetailStack.Navigator>
+  );
+};
+
+export const Tab3StackScreen = () => {
+  return (
+    <DetailStack.Navigator>
+      <DetailStack.Screen
+        name="Tab3"
+        component={Tab3}
         options={{ headerShown: false }}
       />
       <DetailStack.Screen

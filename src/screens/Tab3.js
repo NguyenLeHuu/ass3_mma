@@ -69,7 +69,7 @@ const Tab3 = ({ navigation }) => {
   const handlePress = async (id) => {
     orchids.forEach((item, index) => {
       if (item.id === id) {
-        item.isTab3 = !item.isTab3;
+        item.isFavorite = !item.isFavorite;
       }
       return item;
     });
@@ -80,29 +80,29 @@ const Tab3 = ({ navigation }) => {
     await getData();
   };
 
-  const createTwoButtonAlert = () =>
-    Alert.alert("Warning", "Remove all from list ?", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      {
-        text: "Remove",
-        onPress: async () => {
-          const arr = [];
-          setData(arr);
-          orchids.forEach((item, index) => {
-            item.isTab3 = false;
-            return item;
-          });
-          await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
-            // .then(() => console.log("Data changed successfully"))
-            .catch((error) => console.log("Error saving data: ", error));
-          await getData();
-        },
-      },
-    ]);
+  //   const createTwoButtonAlert = () =>
+  //     Alert.alert("Warning", "Remove all from list ?", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel",
+  //       },
+  //       {
+  //         text: "Remove",
+  //         onPress: async () => {
+  //           const arr = [];
+  //           setData(arr);
+  //           orchids.forEach((item, index) => {
+  //             item.isTab3 = false;
+  //             return item;
+  //           });
+  //           await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
+  //             // .then(() => console.log("Data changed successfully"))
+  //             .catch((error) => console.log("Error saving data: ", error));
+  //           await getData();
+  //         },
+  //       },
+  //     ]);
 
   useEffect(() => {
     renderItem;
@@ -155,7 +155,7 @@ const Tab3 = ({ navigation }) => {
           }}
           onPress={() => handlePress(item?.id)}
         >
-          {item.isTab3 === true ? (
+          {item.isFavorite === true ? (
             // <AntDesign name="heart" size={28} color={COLORS.primary} />
             <Feather name="x-circle" size={28} color={COLORS.primary} />
           ) : (
@@ -201,7 +201,7 @@ const Tab3 = ({ navigation }) => {
             const arr = [];
             setData(arr);
             orchids.forEach((item, index) => {
-              item.isTab3 = false;
+              item.isFavorite = false;
               return item;
             });
             await AsyncStorage.setItem("orchids", JSON.stringify(orchids))
