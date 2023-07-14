@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import {
   Ionicons,
@@ -47,8 +48,9 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     // setIsLoading(true);
-    getData();
-    setTimeout(() => setIsLoading(false), 300);
+
+    setTimeout(() => getData(), 500);
+    setTimeout(() => setIsLoading(false), 1000);
   }, [isFocused]);
   const handlePress = async (id) => {
     orchids.forEach((item, index) => {

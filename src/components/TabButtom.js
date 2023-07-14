@@ -40,7 +40,7 @@ export const TabButtom = () => {
           .then(() => console.log("Data saved successfully"))
           .catch((error) => console.log("Error saving data: ", error));
       }
-    }, 500);
+    }, 0);
   }, []);
   return (
     <View
