@@ -24,7 +24,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import { COLORS } from "../constants";
-import { category } from "../assets/data";
+import { category } from "../assets/db";
 const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [orchids, setOrchids] = useState([]);
@@ -86,7 +86,7 @@ const Home = ({ navigation }) => {
         style={{
           flex: 1,
           flexDirection: "row",
-          marginBottom: 20,
+          marginBottom: 12,
           backgroundColor: COLORS.secondary,
           borderRadius: 50,
           justifyContent: "space-between",
@@ -178,6 +178,13 @@ const Home = ({ navigation }) => {
               >
                 LeeOrchidD
               </Text>
+              <Button
+                onPress={() => {
+                  AsyncStorage.clear();
+                  console.log("ok");
+                }}
+                title="Xoa"
+              />
               <Text style={{ fontSize: 25, fontWeight: "500" }}>oo</Text>
             </View>
 
@@ -205,7 +212,7 @@ const Home = ({ navigation }) => {
                 <Feather name="search" size={24} color="black" />
               </View>
               <View style={{ marginLeft: 10 }}>
-                <Text>Search orchid</Text>
+                <TextInput placeholder="Search orchid"></TextInput>
               </View>
             </View>
             <View

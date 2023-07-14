@@ -16,6 +16,8 @@ import {
   FontAwesome,
   MaterialCommunityIcons,
   AntDesign,
+  EvilIcons,
+  Entypo,
 } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -23,7 +25,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, SIZES } from "../constants/index";
 import Home from "../screens/Home";
 import Favorite from "../screens/Favorite";
-import orchids from "../assets/data";
+import Tab3 from "../screens/Tab3";
+// import orchids from "../assets/data";
+import orchids from "../assets/db";
+
 import Detail from "../screens/Detail";
 import { useNavigation } from "@react-navigation/native";
 
@@ -96,6 +101,22 @@ export const TabButtom = () => {
                     <AntDesign name="heart" size={28} color={COLORS.primary} />
                   ) : (
                     <AntDesign name="hearto" size={28} color={COLORS.black} />
+                  )}
+                </Pressable>
+              ),
+              tabBarLabel: null,
+            }}
+          />
+          <Tab.Screen
+            name="Tab3"
+            component={Tab3}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Pressable onPress={() => navigation.navigate("Tab3")}>
+                  {focused ? (
+                    <Entypo name="image" size={28} color={COLORS.primary} />
+                  ) : (
+                    <Entypo name="image" size={28} color={COLORS.black} />
                   )}
                 </Pressable>
               ),
